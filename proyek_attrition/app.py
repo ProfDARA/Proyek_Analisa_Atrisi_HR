@@ -18,6 +18,7 @@ container_bg = '''
 [data-testid="stAppViewContainer"] {
     background: url("https://images.unsplash.com/photo-1519389950473-47ba0277781c") no-repeat center center fixed;
     background-size: cover;
+    background-color: rgba(255, 255, 255, 0.5); /* untuk warna putih transparan */
 }
 
 [data-testid="stHeader"] {
