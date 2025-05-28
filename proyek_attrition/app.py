@@ -40,28 +40,30 @@ input_dict['YearsInCurrentRole'] = st.number_input("Tahun di Role Saat Ini", 0, 
 input_dict['YearsSinceLastPromotion'] = st.number_input("Tahun sejak Promosi Terakhir", 0, 15, 1)
 input_dict['YearsWithCurrManager'] = st.number_input("Tahun dengan Manajer Saat Ini", 0, 15, 2)
 
-# One-hot encoding pilihan kategori
-input_dict['BusinessTravel_Travel_Frequently'] = st.checkbox("Sering Bepergian (Business Travel)")
-input_dict['BusinessTravel_Travel_Rarely'] = st.checkbox("Jarang Bepergian (Business Travel)")
-input_dict['Department_Research & Development'] = st.checkbox("Department: R&D")
-input_dict['Department_Sales'] = st.checkbox("Department: Sales")
-input_dict['EducationField_Life Sciences'] = st.checkbox("Education Field: Life Sciences")
-input_dict['EducationField_Marketing'] = st.checkbox("Education Field: Marketing")
-input_dict['EducationField_Medical'] = st.checkbox("Education Field: Medical")
-input_dict['EducationField_Other'] = st.checkbox("Education Field: Other")
-input_dict['EducationField_Technical Degree'] = st.checkbox("Education Field: Technical Degree")
-input_dict['Gender_Male'] = st.checkbox("Laki-laki")
-input_dict['JobRole_Human Resources'] = st.checkbox("Job Role: HR")
-input_dict['JobRole_Laboratory Technician'] = st.checkbox("Job Role: Lab Technician")
-input_dict['JobRole_Manager'] = st.checkbox("Job Role: Manager")
-input_dict['JobRole_Manufacturing Director'] = st.checkbox("Job Role: Manufacturing Director")
-input_dict['JobRole_Research Director'] = st.checkbox("Job Role: Research Director")
-input_dict['JobRole_Research Scientist'] = st.checkbox("Job Role: Research Scientist")
-input_dict['JobRole_Sales Executive'] = st.checkbox("Job Role: Sales Executive")
-input_dict['JobRole_Sales Representative'] = st.checkbox("Job Role: Sales Representative")
-input_dict['MaritalStatus_Married'] = st.checkbox("Sudah Menikah")
-input_dict['MaritalStatus_Single'] = st.checkbox("Belum Menikah")
-input_dict['OverTime_Yes'] = st.checkbox("Lembur")
+# Business Travel
+business_travel = st.selectbox("Business Travel", ["Sering Bepergian", "Jarang Bepergian", "Tidak Ada"])
+
+input_dict = {
+    'BusinessTravel_Travel_Frequently': 1 if business_travel == "Sering Bepergian" else 0,
+    'BusinessTravel_Travel_Rarely': 1 if business_travel == "Jarang Bepergian" else 0
+}
+
+# Department
+department = st.radio("Department", ["R&D", "Sales", "Lainnya"])
+
+input_dict.update({
+    'Department_Research & Development': 1 if department == "R&D" else 0,
+    'Department_Sales': 1 if department == "Sales" else 0
+})
+
+# Gender
+gender = st.radio("Gender", ["Laki-laki", "Perempuan"])
+
+input_dict.update({
+    'Gender_Male': 1 if gender == "Laki-laki" else 0
+})
+
+st.write(input_dict)
 
 if st.button("Prediksi"):
     input_df = pd.DataFrame([input_dict])
