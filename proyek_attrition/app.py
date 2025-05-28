@@ -7,12 +7,12 @@ from streamlit_extras.mention import mention
 # Custom Page Config
 st.set_page_config(
     page_title="Prediksi Attrition Karyawan",
-    page_icon=":guardsman:",  # Icon from Streamlit's emoji set
+    page_icon="📈",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
 
-# Styling untuk container dengan latar belakang putih transparan
+# Styling untuk container dengan latar belakang putih transparan penuh
 container_bg = '''
 <style>
 [data-testid="stAppViewContainer"] {
@@ -28,21 +28,19 @@ container_bg = '''
     right: 2rem;
 }
 
-.container {
-    background: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 10px;
+section.main > div {
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
 }
 </style>
 '''
 
 st.markdown(container_bg, unsafe_allow_html=True)
 
-with st.container():
-    st.markdown('<div class="container">', unsafe_allow_html=True)
-    st.title("Prediksi Peluang Attrition Karyawan")
-    st.write("Masukkan data karyawan untuk memprediksi apakah mereka berisiko keluar dari perusahaan.")
-    st.markdown('</div>', unsafe_allow_html=True)
+st.title("📊 Prediksi Peluang Attrition Karyawan")
+st.write("Masukkan data karyawan untuk memprediksi apakah mereka berisiko keluar dari perusahaan.")
 
 
 def cek_peluang_attrisi(input_data):
@@ -128,14 +126,13 @@ input_dict['JobRole'] = st.selectbox("Job Role", ["Human Resources", "Laboratory
 input_dict['MaritalStatus'] = st.selectbox("Status Pernikahan", ["Married", "Single", "Divorced"])
 input_dict['OverTime'] = st.selectbox("Lembur", ["Yes", "No"])
 
-if st.button("✨ Prediksi"):
+if st.button("Prediksi"):
     try:
         encoded_input = one_hot_encode_input(input_dict)
         input_df = pd.DataFrame([encoded_input])
         prediksi, peluang = cek_peluang_attrisi(input_df)
 
         hasil = "Keluar" if prediksi == 1 else "Bertahan"
-        rain(emoji="🌟" if prediksi == 1 else "🌿", font_size=36, falling_speed=5, animation_length="medium")
 
         st.success(f"Prediksi: {hasil}")
         st.info(f"Peluang Mengundurkan Diri: {peluang * 100:.2f}%")
