@@ -75,10 +75,9 @@ Berdasarkan grafik hasil model **Random Forest**, dapat disimpulkan bahwa:
 5. **Keterlibatan kerja (JobInvolvement)**, **status lajang (MaritalStatus_Single)**, serta **penghasilan bulanan (MonthlyIncome)** juga termasuk penentu penting dalam keputusan keluar.
 6. **Lama bekerja (YearsAtCompany)** dan **usia (Age)** memiliki peran yang signifikan. Karyawan yang masih muda atau baru bekerja cenderung lebih rentan keluar.
 
-### Insight Utama:
+### Insight Utama
 **Attrition bukan hanya persoalan gaji**, tetapi lebih dipengaruhi oleh keseimbangan kerja, kepuasan psikologis, dan hubungan emosional karyawan terhadap pekerjaan dan perusahaan.
 Perusahaan dapat secara proaktif menurunkan tingkat attrition dengan fokus pada faktor-faktor utama tersebut.
-
 
 
 ### Rekomendasi Action Items (Optional)
