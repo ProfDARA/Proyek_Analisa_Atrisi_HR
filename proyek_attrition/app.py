@@ -16,7 +16,7 @@ st.set_page_config(
 container_bg = '''
 <style>
 [data-testid="stAppViewContainer"] {
-    background: url("https://images.unsplash.com/photo-1519389950473-47ba0277781c") no-repeat center center fixed;
+    background: url("https://cdn.prod.website-files.com/6442419dcf656a81da76b503/66e14e87ab63c13d95a5cf18_66c89917c37ab9a83f2116f0_66c423956ed668d403616026_65acac47b40149fec3e9cbbb_white-wall-minimalist-home-office-zoom.avif") no-repeat center center fixed;
     background-size: cover;
     background-color: rgba(255, 255, 255, 0.1); /* Transparansi sangat samar */
 }
