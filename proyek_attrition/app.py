@@ -63,7 +63,6 @@ input_dict.update({
     'Gender_Male': 1 if gender == "Laki-laki" else 0
 })
 
-st.write(input_dict)
 
 if st.button("Prediksi"):
     input_df = pd.DataFrame([input_dict])
