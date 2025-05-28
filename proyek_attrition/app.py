@@ -3,10 +3,11 @@ import pandas as pd
 import joblib
 from streamlit_extras.let_it_rain import rain
 from streamlit_extras.mention import mention
+
 # Custom Page Config
 st.set_page_config(
     page_title="Prediksi Attrition Karyawan",
-    page_icon="📈",
+    page_icon=":guardsman:",  # Icon from Streamlit's emoji set
     layout="centered",
     initial_sidebar_state="collapsed"
 )
@@ -28,7 +29,7 @@ container_bg = '''
 }
 
 .container {
-    background: rgba(255, 255, 255, 0.8); /* Warna putih dengan transparansi */
+    background: rgba(255, 255, 255, 0.8);
     padding: 20px;
     border-radius: 10px;
 }
@@ -37,23 +38,20 @@ container_bg = '''
 
 st.markdown(container_bg, unsafe_allow_html=True)
 
-# Buat container untuk konten utama
 with st.container():
     st.markdown('<div class="container">', unsafe_allow_html=True)
-    st.title("📊 Prediksi Peluang Attrition Karyawan")
+    st.title("Prediksi Peluang Attrition Karyawan")
     st.write("Masukkan data karyawan untuk memprediksi apakah mereka berisiko keluar dari perusahaan.")
     st.markdown('</div>', unsafe_allow_html=True)
 
 
-
-# Model Prediction Function
 def cek_peluang_attrisi(input_data):
     model = joblib.load("modelprediksi.pkl")
     proba = model.predict_proba(input_data)[:, 1]
     pred = model.predict(input_data)
     return pred[0], proba[0]
 
-# One-Hot Encoding Helper
+
 def one_hot_encode_input(input_dict):
     encoded = {}
     for key in input_dict:
@@ -85,8 +83,6 @@ def one_hot_encode_input(input_dict):
 
     return encoded
 
-# Streamlit UI
-st.title("\ud83d\udcca Prediksi Peluang Attrition Karyawan")
 st.markdown("""
 <style>
     .big-font {
@@ -100,7 +96,6 @@ st.markdown("""
 
 input_dict = {}
 
-# Numeric and ordinal inputs
 input_dict['Age'] = st.slider("Umur", 18, 60, 30)
 input_dict['DailyRate'] = st.slider("Daily Rate", 100, 1500, 800)
 input_dict['DistanceFromHome'] = st.slider("Jarak dari rumah (km)", 0, 50, 10)
@@ -125,7 +120,6 @@ input_dict['YearsInCurrentRole'] = st.slider("Tahun di Role Saat Ini", 0, 20, 3)
 input_dict['YearsSinceLastPromotion'] = st.slider("Tahun sejak Promosi Terakhir", 0, 15, 1)
 input_dict['YearsWithCurrManager'] = st.slider("Tahun dengan Manajer Saat Ini", 0, 15, 2)
 
-# Categorical inputs
 input_dict['BusinessTravel'] = st.selectbox("Business Travel", ["Non-Travel", "Travel_Rarely", "Travel_Frequently"])
 input_dict['Department'] = st.selectbox("Department", ["Human Resources", "Research & Development", "Sales"])
 input_dict['EducationField'] = st.selectbox("Education Field", ["Life Sciences", "Marketing", "Medical", "Other", "Technical Degree", "Human Resources"])
@@ -134,14 +128,14 @@ input_dict['JobRole'] = st.selectbox("Job Role", ["Human Resources", "Laboratory
 input_dict['MaritalStatus'] = st.selectbox("Status Pernikahan", ["Married", "Single", "Divorced"])
 input_dict['OverTime'] = st.selectbox("Lembur", ["Yes", "No"])
 
-if st.button("\u2728 Prediksi"):
+if st.button("✨ Prediksi"):
     try:
         encoded_input = one_hot_encode_input(input_dict)
         input_df = pd.DataFrame([encoded_input])
         prediksi, peluang = cek_peluang_attrisi(input_df)
 
         hasil = "Keluar" if prediksi == 1 else "Bertahan"
-        rain(emoji="\ud83c\udf1f" if prediksi == 1 else "\ud83c\udf3f", font_size=36, falling_speed=5, animation_length="medium")
+        rain(emoji="🌟" if prediksi == 1 else "🌿", font_size=36, falling_speed=5, animation_length="medium")
 
         st.success(f"Prediksi: {hasil}")
         st.info(f"Peluang Mengundurkan Diri: {peluang * 100:.2f}%")
