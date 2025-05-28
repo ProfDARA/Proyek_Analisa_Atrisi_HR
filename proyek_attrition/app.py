@@ -3,7 +3,6 @@ import pandas as pd
 import joblib
 from streamlit_extras.let_it_rain import rain
 from streamlit_extras.mention import mention
-
 # Custom Page Config
 st.set_page_config(
     page_title="Prediksi Attrition Karyawan",
@@ -12,15 +11,12 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Background styling
+# Background Styling
 page_bg_img = '''
 <style>
-[data-testid="stAppViewContainer"] > .main {
-    background-image: url("https://images.unsplash.com/photo-1519389950473-47ba0277781c");
+[data-testid="stAppViewContainer"] {
+    background: url("https://images.unsplash.com/photo-1519389950473-47ba0277781c") no-repeat center center fixed;
     background-size: cover;
-    background-position: top left;
-    background-repeat: no-repeat;
-    background-attachment: local;
 }
 [data-testid="stHeader"] {
     background: rgba(0,0,0,0);
@@ -32,6 +28,7 @@ page_bg_img = '''
 '''
 
 st.markdown(page_bg_img, unsafe_allow_html=True)
+
 
 # Model Prediction Function
 def cek_peluang_attrisi(input_data):
