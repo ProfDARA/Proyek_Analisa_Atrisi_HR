@@ -11,23 +11,39 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Background Styling
-page_bg_img = '''
+# Styling untuk container dengan latar belakang putih transparan
+container_bg = '''
 <style>
 [data-testid="stAppViewContainer"] {
     background: url("https://images.unsplash.com/photo-1519389950473-47ba0277781c") no-repeat center center fixed;
     background-size: cover;
 }
+
 [data-testid="stHeader"] {
     background: rgba(0,0,0,0);
 }
+
 [data-testid="stToolbar"] {
     right: 2rem;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.8); /* Warna putih dengan transparansi */
+    padding: 20px;
+    border-radius: 10px;
 }
 </style>
 '''
 
-st.markdown(page_bg_img, unsafe_allow_html=True)
+st.markdown(container_bg, unsafe_allow_html=True)
+
+# Buat container untuk konten utama
+with st.container():
+    st.markdown('<div class="container">', unsafe_allow_html=True)
+    st.title("📊 Prediksi Peluang Attrition Karyawan")
+    st.write("Masukkan data karyawan untuk memprediksi apakah mereka berisiko keluar dari perusahaan.")
+    st.markdown('</div>', unsafe_allow_html=True)
+
 
 
 # Model Prediction Function
