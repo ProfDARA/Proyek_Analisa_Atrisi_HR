@@ -42,6 +42,7 @@ bisa langsung di notebook ipynb pada bagian
 
 atau 
 akses secara online pada
+https://prediksiatrisi.streamlit.app/
 
 
 ## Business Dashboard

@@ -1,16 +1,15 @@
-# app.py
 import streamlit as st
 import pandas as pd
 import joblib
 
-# --- Model Prediction Function ---
+# Model Prediction Function
 def cek_peluang_attrisi(input_data):
     model = joblib.load("modelprediksi.pkl")
     proba = model.predict_proba(input_data)[:, 1]
     pred = model.predict(input_data)
     return pred[0], proba[0]
 
-# --- One-Hot Encoding Helper ---
+# One-Hot Encoding Helper 
 def one_hot_encode_input(input_dict):
     encoded = {}
 
@@ -56,7 +55,7 @@ def one_hot_encode_input(input_dict):
 
     return encoded
 
-# --- Streamlit UI ---
+# Streamlit UI
 st.title("Prediksi Peluang Attrition Karyawan")
 st.write("Masukkan data karyawan untuk memprediksi apakah mereka berisiko keluar dari perusahaan.")
 
@@ -96,7 +95,7 @@ input_dict['JobRole'] = st.selectbox("Job Role", ["Human Resources", "Laboratory
 input_dict['MaritalStatus'] = st.selectbox("Status Pernikahan", ["Married", "Single", "Divorced"])
 input_dict['OverTime'] = st.selectbox("Lembur", ["Yes", "No"])
 
-# --- Run Prediction ---
+# Bagian untuk memprediksi
 if st.button("Prediksi"):
     try:
         encoded_input = one_hot_encode_input(input_dict)
@@ -106,6 +105,6 @@ if st.button("Prediksi"):
         st.subheader("Hasil Prediksi")
         hasil = "Keluar" if prediksi == 1 else "Bertahan"
         st.write(f"Prediksi: **{hasil}**")
-        st.write(f"Confidence attrition: **{peluang * 100:.2f}%**")
+        st.write(f"Peluang Mengundurkan Diri: **{peluang * 100:.2f}%**")
     except Exception as e:
         st.error(f"Terjadi kesalahan saat prediksi: {e}")
