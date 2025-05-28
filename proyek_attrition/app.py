@@ -3,19 +3,66 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# Fungsi prediksi peluang attrition
+# --- Model Prediction Function ---
 def cek_peluang_attrisi(input_data):
     model = joblib.load("modelprediksi.pkl")
     proba = model.predict_proba(input_data)[:, 1]
     pred = model.predict(input_data)
     return pred[0], proba[0]
 
+# --- One-Hot Encoding Helper ---
+def one_hot_encode_input(input_dict):
+    encoded = {}
+
+    # Salin numerik dan ordinal
+    for key in input_dict:
+        if key not in [
+            'BusinessTravel', 'Department', 'EducationField', 'Gender',
+            'JobRole', 'MaritalStatus', 'OverTime']:
+            encoded[key] = input_dict[key]
+
+    # One-hot BusinessTravel
+    bt = input_dict['BusinessTravel']
+    for cat in ["Travel_Frequently", "Travel_Rarely"]:
+        encoded[f"BusinessTravel_{cat}"] = (bt == cat)
+
+    # One-hot Department
+    dept = input_dict['Department']
+    for cat in ["Research & Development", "Sales"]:
+        encoded[f"Department_{cat}"] = (dept == cat)
+
+    # One-hot EducationField
+    field = input_dict['EducationField']
+    for cat in ["Life Sciences", "Marketing", "Medical", "Other", "Technical Degree"]:
+        encoded[f"EducationField_{cat}"] = (field == cat)
+
+    # One-hot Gender
+    encoded['Gender_Male'] = (input_dict['Gender'] == 'Male')
+
+    # One-hot JobRole
+    role = input_dict['JobRole']
+    for cat in ["Human Resources", "Laboratory Technician", "Manager",
+                "Manufacturing Director", "Research Director", "Research Scientist",
+                "Sales Executive", "Sales Representative"]:
+        encoded[f"JobRole_{cat}"] = (role == cat)
+
+    # One-hot MaritalStatus
+    ms = input_dict['MaritalStatus']
+    for cat in ["Married", "Single"]:
+        encoded[f"MaritalStatus_{cat}"] = (ms == cat)
+
+    # One-hot OverTime
+    encoded['OverTime_Yes'] = (input_dict['OverTime'] == 'Yes')
+
+    return encoded
+
+# --- Streamlit UI ---
 st.title("Prediksi Peluang Attrition Karyawan")
 st.write("Masukkan data karyawan untuk memprediksi apakah mereka berisiko keluar dari perusahaan.")
 
-# --- INPUT USER ---
 input_dict = {}
 
+# Numeric and ordinal inputs
 input_dict['Age'] = st.number_input("Umur", 18, 60, 30)
 input_dict['DailyRate'] = st.number_input("Daily Rate", 100, 1500, 800)
 input_dict['DistanceFromHome'] = st.number_input("Jarak dari rumah (km)", 0, 50, 10)
@@ -40,42 +87,25 @@ input_dict['YearsInCurrentRole'] = st.number_input("Tahun di Role Saat Ini", 0, 
 input_dict['YearsSinceLastPromotion'] = st.number_input("Tahun sejak Promosi Terakhir", 0, 15, 1)
 input_dict['YearsWithCurrManager'] = st.number_input("Tahun dengan Manajer Saat Ini", 0, 15, 2)
 
-# One-hot encoding pilihan kategori
-input_dict['BusinessTravel'] = st.selectbox("Business Travel", [
-    "Non-Travel", "Travel_Rarely", "Travel_Frequently"
-])
+# Categorical inputs (selectbox)
+input_dict['BusinessTravel'] = st.selectbox("Business Travel", ["Non-Travel", "Travel_Rarely", "Travel_Frequently"])
+input_dict['Department'] = st.selectbox("Department", ["Human Resources", "Research & Development", "Sales"])
+input_dict['EducationField'] = st.selectbox("Education Field", ["Life Sciences", "Marketing", "Medical", "Other", "Technical Degree", "Human Resources"])
+input_dict['Gender'] = st.selectbox("Jenis Kelamin", ["Male", "Female"])
+input_dict['JobRole'] = st.selectbox("Job Role", ["Human Resources", "Laboratory Technician", "Manager", "Manufacturing Director", "Research Director", "Research Scientist", "Sales Executive", "Sales Representative"])
+input_dict['MaritalStatus'] = st.selectbox("Status Pernikahan", ["Married", "Single", "Divorced"])
+input_dict['OverTime'] = st.selectbox("Lembur", ["Yes", "No"])
 
-input_dict['Department'] = st.selectbox("Department", [
-    "Human Resources", "Research & Development", "Sales"
-])
-
-input_dict['EducationField'] = st.selectbox("Education Field", [
-    "Life Sciences", "Marketing", "Medical", "Other", "Technical Degree", "Human Resources"
-])
-
-input_dict['Gender'] = st.selectbox("Jenis Kelamin", [
-    "Male", "Female"
-])
-
-input_dict['JobRole'] = st.selectbox("Job Role", [
-    "Human Resources", "Laboratory Technician", "Manager",
-    "Manufacturing Director", "Research Director", "Research Scientist",
-    "Sales Executive", "Sales Representative"
-])
-
-input_dict['MaritalStatus'] = st.selectbox("Status Pernikahan", [
-    "Married", "Single", "Divorced"
-])
-
-input_dict['OverTime'] = st.selectbox("Lembur", [
-    "Yes", "No"
-])
-
+# --- Run Prediction ---
 if st.button("Prediksi"):
-    input_df = pd.DataFrame([input_dict])
-    prediksi, peluang = cek_peluang_attrisi(input_df)
+    try:
+        encoded_input = one_hot_encode_input(input_dict)
+        input_df = pd.DataFrame([encoded_input])
+        prediksi, peluang = cek_peluang_attrisi(input_df)
 
-    st.subheader("Hasil Prediksi")
-    hasil = "Keluar" if prediksi == 1 else "Bertahan"
-    st.write(f"Prediksi: **{hasil}**")
-    st.write(f"Confidence attrition: **{peluang * 100:.2f}%**")
+        st.subheader("Hasil Prediksi")
+        hasil = "Keluar" if prediksi == 1 else "Bertahan"
+        st.write(f"Prediksi: **{hasil}**")
+        st.write(f"Confidence attrition: **{peluang * 100:.2f}%**")
+    except Exception as e:
+        st.error(f"Terjadi kesalahan saat prediksi: {e}")
