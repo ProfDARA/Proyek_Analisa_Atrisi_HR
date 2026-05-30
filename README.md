@@ -1,6 +1,6 @@
 # Proyek Analisis Atrisi HR
 
-Repository ini berisi proyek analisis attrition karyawan: mulai dari data mentah, proses analisis, model machine learning, sampai aplikasi Streamlit untuk prediksi peluang karyawan keluar.
+Repository ini berisi proyek analisis atrisi (attrition) karyawan: mulai dari data mentah, proses analisis, model machine learning, sampai aplikasi Streamlit untuk prediksi peluang karyawan keluar.
 
 ## Tujuan Proyek
 
@@ -58,11 +58,11 @@ Dashboard Looker Studio:
 https://lookerstudio.google.com/reporting/7a582316-1691-41cb-88e8-e9b4075ee39b
 
 Dashboard membantu memantau pola attrition berdasarkan faktor seperti:
-- overtime
-- level jabatan
-- kepuasan kerja
-- status pernikahan
-- usia dan lama bekerja
+- Overtime
+- Level jabatan
+- Kepuasan kerja
+- Status pernikahan
+- Usia dan lama bekerja
 
 ## Insight Utama
 
