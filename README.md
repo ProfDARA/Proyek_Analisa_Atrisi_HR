@@ -58,11 +58,11 @@ Dashboard Looker Studio:
 https://lookerstudio.google.com/reporting/7a582316-1691-41cb-88e8-e9b4075ee39b
 
 Dashboard membantu memantau pola attrition berdasarkan faktor seperti:
-- Overtime
-- Level jabatan
-- Kepuasan kerja
-- Status pernikahan
-- Usia dan lama bekerja
+- overtime
+- level jabatan
+- kepuasan kerja
+- status pernikahan
+- usia dan lama bekerja
 
 ## Insight Utama
 
