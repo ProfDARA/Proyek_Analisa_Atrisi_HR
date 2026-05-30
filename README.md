@@ -30,7 +30,7 @@ Proyek_Analisa_Atrisi_HR/
 
 - Python
 - Pandas, NumPy
-- Scikit-learn, Imbalanced-learn
+- Scikit-learn, imbalanced-learn
 - Streamlit
 - Matplotlib, Seaborn
 
